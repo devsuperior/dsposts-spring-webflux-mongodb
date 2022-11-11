@@ -5,8 +5,10 @@ import org.springframework.stereotype.Service;
 
 import com.devsuperior.workshopmongo.dto.UserDTO;
 import com.devsuperior.workshopmongo.repositories.UserRepository;
+import com.devsuperior.workshopmongo.services.exceptioons.ResourceNotFoundException;
 
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @Service
 public class UserService {
@@ -17,5 +19,11 @@ public class UserService {
 	public Flux<UserDTO> findAll() {
 		return repository.findAll()
 				.map(user -> new UserDTO(user));
+	}
+	
+	public Mono<UserDTO> findById(String id) {
+		return repository.findById(id)
+				.map(existingUser -> new UserDTO(existingUser))
+				.switchIfEmpty(Mono.error(new ResourceNotFoundException("Recurso não encontrado")));
 	}
 }
