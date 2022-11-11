@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.Objects;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.DocumentReference;
 
 @Document(collection = "user")
 public class User {
@@ -16,7 +16,7 @@ public class User {
 	private String name;
 	private String email;
 	
-	@DBRef(lazy = true)
+	@DocumentReference(lazy = true)
 	private List<Post> posts = new ArrayList<>();
 	
 	public User() {
