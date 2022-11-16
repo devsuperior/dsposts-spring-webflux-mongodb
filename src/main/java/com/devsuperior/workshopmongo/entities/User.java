@@ -6,7 +6,6 @@ import java.util.Objects;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.DocumentReference;
 
 @Document(collection = "user")
 public class User {
@@ -16,8 +15,7 @@ public class User {
 	private String name;
 	private String email;
 	
-	@DocumentReference(lazy = true)
-	private List<Post> posts = new ArrayList<>();
+	private List<Post> posts;
 	
 	public User() {
 	}
@@ -27,6 +25,7 @@ public class User {
 		this.id = id;
 		this.name = name;
 		this.email = email;
+		this.posts = new ArrayList<>();
 	}
 
 	public String getId() {
@@ -55,6 +54,10 @@ public class User {
 
 	public List<Post> getPosts() {
 		return posts;
+	}
+	
+	public void addPost(Post post) {		
+		posts.add(post);
 	}
 
 	@Override

@@ -38,7 +38,11 @@ public class SeedingDatabase implements CommandLineRunner {
 		User bob = new User(null, "Bob Grey", "bob@gmail.com");
 		
 		Flux<User> insertUsers = userRepository.saveAll(Arrays.asList(maria, alex, bob));
-		insertUsers.subscribe();
+		insertUsers.subscribe();			
+		
+		maria = userRepository.searchEmail("maria@gmail.com").block();
+		alex = userRepository.searchEmail("alex@gmail.com").block();
+		bob = userRepository.searchEmail("bob@gmail.com").block();
 		
 		Post post1 = new Post(null, Instant.parse("2022-11-21T18:35:24.00Z"), "Partiu viagem",
 				"Vou viajar para São Paulo. Abraços!", maria.getId(), maria.getName());
@@ -53,7 +57,8 @@ public class SeedingDatabase implements CommandLineRunner {
 		Flux<Post> insertPosts = postRepository.saveAll(Arrays.asList(post1, post2));
 		insertPosts.subscribe();
 		
-		maria.getPosts().addAll(Arrays.asList(post1, post2));
+		maria.addPost(post1);
+		maria.addPost(post2);
 		
 		Mono<Void> deleteUser = userRepository.delete(maria);
 		deleteUser.subscribe();

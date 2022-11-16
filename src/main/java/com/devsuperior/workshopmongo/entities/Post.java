@@ -18,7 +18,7 @@ public class Post {
 	private String body;
 	private Author author;
 	
-	private List<Comment> comments = new ArrayList<>();
+	private List<Comment> comments = new ArrayList<>();	
 	
 	public Post() {
 	}
