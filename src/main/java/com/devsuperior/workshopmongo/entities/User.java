@@ -1,12 +1,9 @@
 package com.devsuperior.workshopmongo.entities;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.DocumentReference;
 
 @Document(collection = "user")
 public class User {
@@ -16,9 +13,6 @@ public class User {
 	private String name;
 	private String email;
 	
-	@DocumentReference(lazy = true)
-	private List<Post> posts;
-	
 	public User() {
 	}
 	
@@ -27,7 +21,6 @@ public class User {
 		this.id = id;
 		this.name = name;
 		this.email = email;
-		this.posts = new ArrayList<>();
 	}
 
 	public String getId() {
@@ -54,14 +47,6 @@ public class User {
 		this.email = email;
 	}
 
-	public List<Post> getPosts() {
-		return posts;
-	}
-	
-	public void addPost(Post post) {		
-		posts.add(post);
-	}
-
 	@Override
 	public int hashCode() {
 		return Objects.hash(email, id, name);
@@ -77,5 +62,10 @@ public class User {
 			return false;
 		User other = (User) obj;
 		return Objects.equals(email, other.email) && Objects.equals(id, other.id) && Objects.equals(name, other.name);
+	}
+
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", name=" + name + ", email=" + email + "]";
 	}
 }

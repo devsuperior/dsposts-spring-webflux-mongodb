@@ -3,6 +3,7 @@ package com.devsuperior.workshopmongo.controllers;
 import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.time.Instant;
+import java.util.concurrent.ExecutionException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +28,7 @@ public class PostController {
 	private PostService service;
 	
 	@GetMapping(value = "/{id}")
-	public Mono<ResponseEntity<PostDTO>> findById(@PathVariable String id) {
+	public Mono<ResponseEntity<PostDTO>> findById(@PathVariable String id) throws InterruptedException, ExecutionException {
 		return service.findById(id).map(postDto -> ResponseEntity.ok().body(postDto));
 	}
 	
@@ -48,5 +49,10 @@ public class PostController {
 		Instant min = URL.convertDate(minDate, Instant.EPOCH);
 		Instant max = URL.convertDate(maxDate, Instant.now());
 		return service.fullSearch(text, min, max);
+	}
+	
+	@GetMapping(value = "/user/{id}")
+	public Flux<PostDTO> findByUser(@PathVariable String id) {
+		return service.findByUser(id);
 	}
 }

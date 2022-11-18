@@ -7,6 +7,7 @@ import java.util.Objects;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.DocumentReference;
 
 @Document(collection = "post")
 public class Post {
@@ -17,6 +18,9 @@ public class Post {
 	private String title;
 	private String body;
 	private Author author;
+	
+	@DocumentReference
+	private User user;
 	
 	private List<Comment> comments = new ArrayList<>();	
 	
@@ -91,6 +95,14 @@ public class Post {
 		return comments;
 	}
 	
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
 	public void addComment(String CommentText, Instant commentDate, String authorId, String authorName) {
 		Comment comment = new Comment(CommentText, date, authorId, authorName);
 		comments.add(comment);
@@ -113,6 +125,12 @@ public class Post {
 		return Objects.equals(author, other.author) && Objects.equals(body, other.body)
 				&& Objects.equals(date, other.date) && Objects.equals(id, other.id)
 				&& Objects.equals(title, other.title);
+	}
+
+	@Override
+	public String toString() {
+		return "Post [id=" + id + ", date=" + date + ", title=" + title + ", body=" + body + ", author=" + author
+				+ ", user=" + user + ", comments=" + comments + "]";
 	}
 }
 
