@@ -126,12 +126,6 @@ public class Post {
 				&& Objects.equals(date, other.date) && Objects.equals(id, other.id)
 				&& Objects.equals(title, other.title);
 	}
-
-	@Override
-	public String toString() {
-		return "Post [id=" + id + ", date=" + date + ", title=" + title + ", body=" + body + ", author=" + author
-				+ ", user=" + user + ", comments=" + comments + "]";
-	}
 }
 
 class Author {

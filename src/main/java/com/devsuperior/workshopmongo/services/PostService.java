@@ -21,10 +21,7 @@ public class PostService {
 	@Autowired
 	private PostRepository repository;
 	
-	public Mono<PostDTO> findById(String id) throws InterruptedException, ExecutionException {
-		Post post = repository.findById(id).toFuture().get();
-		System.out.println(post.toString());
-		
+	public Mono<PostDTO> findById(String id) throws InterruptedException, ExecutionException {	
 		return repository.findById(id)
 				.map(existingPost -> new PostDTO(existingPost))
 				.switchIfEmpty(Mono.error(new ResourceNotFoundException("Recurso não encontrado")));
